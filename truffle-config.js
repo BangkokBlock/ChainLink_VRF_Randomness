@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const HDWalletProvider = require('@truffle-hdwallet-provider');
+const HDWalletProvider = require("truffle-hdwallet-provider")
 const mnemonic = process.env.RINKEBY_MNEMONIC;
 
 module.exports = {
