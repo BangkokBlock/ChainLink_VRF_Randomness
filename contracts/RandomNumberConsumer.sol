@@ -3,31 +3,33 @@ pragma solidity ^0.8.7;
 
 import "./VRFConsumerBase.sol";
 
- 
 contract RandomNumberConsumer is VRFConsumerBase {
-    
-    bytes32 public keyHash;//For demonstration purposes we switched this variable from internal to public 
-    uint256 public fee; //For demo purposes we switched this variable from internal to public 
+    bytes32 public keyHash; //For demonstration purposes we switched this variable from internal to public
+    uint256 public fee; //For demo purposes we switched this variable from internal to public
     uint256 public randomResult;
-    
 
-    constructor() 
+    constructor()
         VRFConsumerBase(
-            0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9, // VRF Coordinator
-            0xa36085F69e2889c224210F603D836748e7dC0088  // LINK Token
+            0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B, // VRF Coordinator (Set to Rinkeby Currently)
+            0x01BE23585060835E02B77ef475b0Cc51aA1e0709 // LINK Token (Set to Rinkeby Currently)
         )
     {
-        keyHash = 0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4;
-        fee = 0.1 * 10 ** 18; // 0.1 LINK (Varies by network)
+        keyHash = 0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311;
+        fee = 0.1 * 10**18; // 0.1 LINK (Varies by network)
     }
-    
- 
+
     function getRandomNumber() public returns (bytes32 requestId) {
-        require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK - fill contract with faucet");
+        require(
+            LINK.balanceOf(address(this)) >= fee,
+            "Not enough LINK - fill contract with faucet"
+        );
         return requestRandomness(keyHash, fee);
     }
 
-    function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
+    function fulfillRandomness(bytes32 requestId, uint256 randomness)
+        internal
+        override
+    {
         randomResult = randomness;
     }
 
